@@ -22,6 +22,24 @@ Once you have the jar file uploaded, to the root of the server, verify that your
 #### Start the server
 On first launch you should generate a bunch of errors, this is normal. The bot will generate a config file and then stop. Edit the config file ([More info here](#configuration-)).
 
+#### Editing the config file
+The config file will be located in the root of your server, and will be named `config.json`. These are the values we need to change before launching again:
+   ```json
+   {
+    "cmd_channel": 0,
+    "log_channel": 0,
+    "guild_id": 0,
+    "bot_token": 0,
+    "web_port": 8585
+   }
+   ```
+You can learn how to get channel/guild ids [here](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-) (Server ID is the same as Guild ID)
+* `cmd_channel`: The channel id that the bot will listen for commands in.
+* `log_channel`: The channel id that the bot will log messages to. (commands are accepted here as well for debugging purposes)
+* `guild_id`: The id of the guild that the bot will be running in.
+* `bot_token`: The token of the bot that you created.
+* `web_port`: The port that the bot will listen for web requests on. This is optional to change, however if you are already running a service on port 8585 you will need to change it.
+
 #### Launch the server again
 Once you have edited the config file, start the server again. The bot should now be running.
 
@@ -108,6 +126,22 @@ Download the latest stable release from the releases page.
     ```bash
     nano config.json
     ```
+   These are the values we need to change before launching again:
+   ```json
+   {
+    "cmd_channel": 0,
+    "log_channel": 0,
+    "guild_id": 0,
+    "bot_token": 0,
+    "web_port": 8585
+   }
+   ```
+   You can learn how to get channel/guild ids [here](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-) (Server ID is the same as Guild ID)
+   * `cmd_channel`: The channel id that the bot will listen for commands in.
+   * `log_channel`: The channel id that the bot will log messages to. (commands are accepted here as well for debugging purposes)
+   * `guild_id`: The id of the guild that the bot will be running in.
+   * `bot_token`: The token of the bot that you created.
+   * `web_port`: The port that the bot will listen for web requests on. This is optional to change, however if you are already running a service on port 8585 you will need to change it.
 4) Start the bot again
     ```bash
     ./start.sh
