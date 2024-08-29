@@ -1,6 +1,11 @@
 # BlockBridge Discord Bot #
-BlockBridge is a Utility/Api for connecting Minecraft with Discord Servers
-
+BlockBridge is a Utility/Api for connecting Minecraft with Discord Servers.
+#### Table of Contents
+* [Prerequisites](#prerequisites-)
+* [Installation](#installation-)
+   * [Pterodactyl/MultiCraft Panel](#pterodactylmulticraft-panel-)
+   * [VPS/Dedicated Server](#vpsdedicated-server-)
+* [Configuration](#configuration-)
 ## Prerequisites ##
 In order to run the bot you will need the following:
 1) A Discord Bot Token ([Check out how to get one here](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token))
@@ -8,7 +13,7 @@ In order to run the bot you will need the following:
 
 ## Installation ##
 There are two ways to install the bot, either by using a pre-built panel (like Pterodactyl or Multicraft) or by using a VPS/Dedicated Server.
-### Pterodactyl/Multicraft Panel ###
+### Pterodactyl/MultiCraft Panel ###
 For this installation method you will need some technical knowledge and access to the server's file system. I will not be going over specifics for each panel, however you can join the Discord for help on specific panel installations.
 #### Download the latest release from the [Releases](https://ci.vanillaflux.com)
 Download the latest stable release from the releases page.
