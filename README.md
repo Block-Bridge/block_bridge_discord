@@ -189,7 +189,7 @@ Your default configuration file will look like this:
 * `log_channel`: The channel id that the bot will log messages to. (commands are accepted here as well for debugging purposes)
 * `web_port`: The port that the bot will listen for web requests on.
 * `command_prefix`: The prefix that the bot will listen for commands with.
-* `token_valid_time`: The time in hours that the bot will wait before checking the token again.
+* `token_valid_time`: The time in hours that a token is valid before expiring.
 * `guild_id`: The id of the guild that the bot will be running in.
 * `bot_token`: The token of the bot that you created.
 * `api_entry_point` & `app_entry_point`: The entry points for the api and app sections of the BlockBridge Discord bot. You can edit these as necessary, however remember they need to be mirrored in the mod's config.
