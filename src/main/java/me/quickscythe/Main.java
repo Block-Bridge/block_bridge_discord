@@ -1,5 +1,6 @@
 package me.quickscythe;
 
+import json2.JSONArray;
 import json2.JSONObject;
 import me.quickscythe.bot.Bot;
 import me.quickscythe.utils.Utils;
@@ -30,8 +31,8 @@ public class Main {
     private static void checkConfigDefaults() {
         if (!CONFIG.has("command_prefix"))
             CONFIG.put("command_prefix", "!");
-        if (!CONFIG.has("command_channel"))
-            CONFIG.put("command_channel", "<channel_id>");
+        if (!CONFIG.has("cmd_channel"))
+            CONFIG.put("cmd_channel", "<channel_id>");
         if (!CONFIG.has("log_channel"))
             CONFIG.put("log_channel", "<channel_id>");
         if (!CONFIG.has("api_entry_point"))
@@ -46,6 +47,8 @@ public class Main {
             CONFIG.put("token_valid_time", 24);
         if (!CONFIG.has("guild_id"))
             CONFIG.put("guild_id", "<guild_id>");
+        if(!CONFIG.has("allow"))
+            CONFIG.put("allow", new JSONArray());
         if (!CONFIG.has("bot_token")) {
             CONFIG.put("bot_token", "<bot_token>");
             Utils.getLogger().error("Bot token not found in config file. Please enter your bot token in the config file.", "=");

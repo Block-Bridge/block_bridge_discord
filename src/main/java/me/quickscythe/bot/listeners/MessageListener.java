@@ -11,10 +11,10 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class MessageListener extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+
         if (event.getAuthor().isBot()) return;
         if (!event.getChannel().equals(Main.getBot().getCommandsChannel()) && !event.getChannel().equals(Main.getBot().getLogsChannel()))
             return;
-
         Message message = event.getMessage();
         String content = message.getContentRaw();
         String cmd = content.toLowerCase().split(" ")[0];
@@ -25,10 +25,7 @@ public class MessageListener extends ListenerAdapter {
             Utils.update();
 
         }
-        if (cmd.equals(Main.getBot().CMD_PREFIX() + "allow") && event.getChannel().equals(Main.getBot().getLogsChannel())) {
-            if (!Main.getConfig().has("allow")) {
-                Main.getConfig().put("allow", new JSONArray());
-            }
+        if (cmd.equals(Main.getBot().CMD_PREFIX() + "allow")) {
             if (args.length < 2) {
                 event.getChannel().sendMessage("Usage: `" + Main.getBot().CMD_PREFIX() + "allow <ip>`").queue();
                 return;
