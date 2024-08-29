@@ -43,3 +43,4 @@ bin/
 
 ### Common ###
 /config.json
+/.idea/uiDesigner.xml
