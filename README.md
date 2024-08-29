@@ -3,7 +3,7 @@ BlockBridge is a Utility/Api for connecting Minecraft with Discord Servers
 
 ## Prerequisites ##
 In order to run the bot you will need the following:
-1) A Discord Bot Token
+1) A Discord Bot Token [Check out how to get one here](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token)
 2) Either a Pterodactyl/Multicraft Panel or a VPS/Dedicated Server
 
 ## Installation ##
