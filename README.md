@@ -3,7 +3,7 @@ BlockBridge is a Utility/Api for connecting Minecraft with Discord Servers
 
 ## Prerequisites ##
 In order to run the bot you will need the following:
-1) A Discord Bot Token [Check out how to get one here](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token)
+1) A Discord Bot Token ([Check out how to get one here](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token))
 2) Either a Pterodactyl/Multicraft Panel or a VPS/Dedicated Server
 
 ## Installation ##
@@ -20,7 +20,7 @@ If you're having issues on this step join the [Discord]() for help
 Once you have the jar file uploaded, to the root of the server, verify that your server jar file is set to the bot jar file.
 
 #### Start the server
-On first launch you should generate a bunch of errors, this is normal. The bot will generate a config file and then stop. Edit the config file.
+On first launch you should generate a bunch of errors, this is normal. The bot will generate a config file and then stop. Edit the config file ([More info here](#configuration-)).
 
 #### Launch the server again
 Once you have edited the config file, start the server again. The bot should now be running.
@@ -104,7 +104,7 @@ Download the latest stable release from the releases page.
     ./start.sh
     ```
 2) The bot should start and generate a config file. Once the bot has generated the config file, stop the bot by pressing `CTRL + C`
-3) Edit the config file
+3) Edit the config file ([More info here](#configuration-)).
     ```bash
     nano config.json
     ```
@@ -167,3 +167,29 @@ Download the latest stable release from the releases page.
     ```
 9) The bot should now be running as a service. If you have any issues, join the [Discord]() for help.
 
+## Configuration ##
+Your default configuration file will look like this:
+```json
+{
+   "allow": [],
+   "cmd_channel": 0,
+   "log_channel": 0,
+   "web_port": 8585,
+   "command_prefix": "!",
+   "token_valid_time": 24,
+   "guild_id": 0,
+   "bot_token": 0,
+   "api_entry_point": "/api",
+   "app_entry_point": "/app"
+   
+}
+```
+* `allow`: An array of user ids that are allowed to use the bot. This will be generated with the `allow` bot command.
+* `cmd_channel`: The channel id that the bot will listen for commands in.
+* `log_channel`: The channel id that the bot will log messages to. (commands are accepted here as well for debugging purposes)
+* `web_port`: The port that the bot will listen for web requests on.
+* `command_prefix`: The prefix that the bot will listen for commands with.
+* `token_valid_time`: The time in hours that the bot will wait before checking the token again.
+* `guild_id`: The id of the guild that the bot will be running in.
+* `bot_token`: The token of the bot that you created.
+* `api_entry_point` & `app_entry_point`: The entry points for the api and app sections of the BlockBridge Discord bot. You can edit these as necessary, however remember they need to be mirrored in the mod's config.

@@ -32,9 +32,9 @@ public class Main {
         if (!CONFIG.has("command_prefix"))
             CONFIG.put("command_prefix", "!");
         if (!CONFIG.has("cmd_channel"))
-            CONFIG.put("cmd_channel", "<channel_id>");
+            CONFIG.put("cmd_channel", 0L);
         if (!CONFIG.has("log_channel"))
-            CONFIG.put("log_channel", "<channel_id>");
+            CONFIG.put("log_channel", 0L);
         if (!CONFIG.has("api_entry_point"))
             CONFIG.put("api_entry_point", "/api");
         if (!CONFIG.has("app_entry_point"))
@@ -46,11 +46,11 @@ public class Main {
         if (!CONFIG.has("token_valid_time"))
             CONFIG.put("token_valid_time", 24);
         if (!CONFIG.has("guild_id"))
-            CONFIG.put("guild_id", "<guild_id>");
+            CONFIG.put("guild_id", 0L);
         if(!CONFIG.has("allow"))
             CONFIG.put("allow", new JSONArray());
         if (!CONFIG.has("bot_token")) {
-            CONFIG.put("bot_token", "<bot_token>");
+            CONFIG.put("bot_token",0L);
             Utils.getLogger().error("Bot token not found in config file. Please enter your bot token in the config file.", "=");
             saveConfig();
             throw new RuntimeException("Bot token not found in config file.");
