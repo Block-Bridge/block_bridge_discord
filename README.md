@@ -20,7 +20,7 @@ If you're having issues on this step join the [Discord]() for help
 Once you have the jar file uploaded, to the root of the server, verify that your server jar file is set to the bot jar file.
 
 #### Start the server
-On first launch you should generate a bunch of errors, this is normal. The bot will generate a config file and then stop. Edit the config file ([More info here](#configuration-)).
+On first launch you should generate a bunch of errors, this is normal. The bot will generate a config file and then stop.
 
 #### Editing the config file
 The config file will be located in the root of your server, and will be named `config.json`. These are the values we need to change before launching again:
@@ -40,6 +40,7 @@ You can learn how to get channel/guild ids [here](https://support.discord.com/hc
 * `bot_token`: The token of the bot that you created.
 * `web_port`: The port that the bot will listen for web requests on. This is optional to change, however if you are already running a service on port 8585 you will need to change it.
 
+([Click here to learn more about the config file](#configuration-)).
 #### Launch the server again
 Once you have edited the config file, start the server again. The bot should now be running.
 
