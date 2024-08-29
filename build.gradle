@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id 'maven-publish'
+}
+
+group = project.group
+version = project.bot_version
+
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation(platform("org.junit:junit-bom:$junit_version"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    implementation("net.dv8tion:JDA:$jda_version")
+    implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("com.sparkjava:spark-core:$spark_version")
+}
+
+test {
+    useJUnitPlatform()
+}
+publishing {
+
+    publications {
+        maven(MavenPublication) {
+            from components.java
+
+        }
+    }
+    repositories {
+        maven {
+            name = 'localRepo'
+            url = layout.buildDirectory.dir("repo")
+        }
+    }
+}
