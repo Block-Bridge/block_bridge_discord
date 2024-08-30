@@ -3,7 +3,6 @@ package me.quickscythe;
 import json2.JSONObject;
 import me.quickscythe.bot.Bot;
 import me.quickscythe.utils.BlockBridgeDiscordUtils;
-import me.quickscythe.webapp.listeners.DiscordLogListener;
 
 import java.io.*;
 
@@ -25,7 +24,6 @@ public class BlockBridgeDiscord {
         BOT = new Bot();
         bba = new BlockBridgeApi();
         bba.init();
-        bba.getWebApp().addListener(new DiscordLogListener());
 
     }
 
@@ -113,34 +111,7 @@ public class BlockBridgeDiscord {
         return CONFIG;
     }
 
-    public static boolean LOG_STATUS() {
-        return CONFIG.getJSONObject("logs").getBoolean("status_changes");
-    }
-    public static boolean LOG_JOIN() {
-        return CONFIG.getJSONObject("logs").getBoolean("join");
-    }
-    public static boolean LOG_LEAVE() {
-        return CONFIG.getJSONObject("logs").getBoolean("leave");
-    }
-    public static boolean LOG_CHAT() {
-        return CONFIG.getJSONObject("logs").getBoolean("chat");
-    }
 
-    public static String LOG_STATUS_MSG() {
-        return CONFIG.getJSONObject("logs").getString("status_changes_message");
-    }
-
-    public static String LOG_JOIN_MSG() {
-        return CONFIG.getJSONObject("logs").getString("join_message");
-    }
-
-    public static String LOG_LEAVE_MSG() {
-        return CONFIG.getJSONObject("logs").getString("leave_message");
-    }
-
-    public static String LOG_CHAT_MSG() {
-        return CONFIG.getJSONObject("logs").getString("chat_format");
-    }
 
     public static BlockBridgeApi getApi() {
         return bba;
