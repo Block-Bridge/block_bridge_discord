@@ -44,3 +44,6 @@ bin/
 ### Common ###
 /config.json
 /.idea/uiDesigner.xml
+/run/plugins/block_bridge_test_bot_plugin-1.0.0.jar
+/run/bot.json
+/run/webapp.json
