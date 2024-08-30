@@ -2,18 +2,18 @@ package me.quickscythe.bot;
 
 public class BotPlugin {
 
-    private final String NAME;
+    private String name = null;
 
-
-    public BotPlugin(String name){
-        this.NAME = name;
-    }
 
     public void enable(){
-        System.out.println("Plugin enabled");
+        System.out.println(name + " enabled");
     }
 
     public String getName() {
-        return NAME;
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -42,14 +42,14 @@ public class Utils {
                     Properties properties = new Properties();
                     properties.load(classLoader.getResourceAsStream("plugin.properties"));
                     Class<? extends BotPlugin> loadedClass = (Class<? extends BotPlugin>) classLoader.loadClass(properties.getProperty("main"));
-                    BotPlugin instance = loadedClass.getDeclaredConstructor(String.class).newInstance(properties.getProperty("name"));
+                    BotPlugin instance = loadedClass.getDeclaredConstructor().newInstance();
+                    instance.setName(properties.getProperty("name"));
                     instance.enable();
                     PLUGINS.add(instance);
                     getLogger().log("Loaded plugin " + instance.getName());
                     classLoader.close();
                 } catch (Exception e) {
                     getLogger().error("There was an error loading a plugin (" + file.getName() + ").", e);
-                    e.printStackTrace();
                 }
             }
         }
