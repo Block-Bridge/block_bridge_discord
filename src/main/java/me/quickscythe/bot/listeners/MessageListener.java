@@ -1,7 +1,7 @@
 package me.quickscythe.bot.listeners;
 
 import me.quickscythe.BlockBridgeDiscord;
-import me.quickscythe.utils.Utils;
+import me.quickscythe.utils.BlockBridgeDiscordUtils;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -20,8 +20,8 @@ public class MessageListener extends ListenerAdapter {
         String[] args = content.split(" ");
 
         if (cmd.equals(BlockBridgeDiscord.getBot().CMD_PREFIX() + "update")) {
-            Utils.getLogger().log("Updating the bot now.");
-            Utils.update();
+            BlockBridgeDiscordUtils.getLogger().log("Updating the bot now.");
+            BlockBridgeDiscordUtils.update();
 
         }
         if (cmd.equals(BlockBridgeDiscord.getBot().CMD_PREFIX() + "allow")) {
@@ -32,7 +32,7 @@ public class MessageListener extends ListenerAdapter {
 
             BlockBridgeDiscord.getApi().allow(args[1]);
 //            Main.getConfig().getJSONArray("allow").put(args[1]);
-            Utils.getLogger().log("Added " + args[1] + " to the allow list.");
+            BlockBridgeDiscordUtils.getLogger().log("Added " + args[1] + " to the allow list.");
 //            Main.saveConfig();
         }
     }

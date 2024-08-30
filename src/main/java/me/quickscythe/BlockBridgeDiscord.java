@@ -2,7 +2,7 @@ package me.quickscythe;
 
 import json2.JSONObject;
 import me.quickscythe.bot.Bot;
-import me.quickscythe.utils.Utils;
+import me.quickscythe.utils.BlockBridgeDiscordUtils;
 import me.quickscythe.webapp.listeners.DiscordLogListener;
 
 import java.io.*;
@@ -17,7 +17,7 @@ public class BlockBridgeDiscord {
 
 
     public static void main(String[] args) {
-        Utils._before_init();
+        BlockBridgeDiscordUtils._before_init();
 
         CONFIG = loadConfig();
         checkConfigDefaults();
@@ -49,7 +49,7 @@ public class BlockBridgeDiscord {
             setDefault("bot_token", 0L);
 
             saveConfig();
-            Utils.getLogger().error("Bot token not found in config file. Please enter your bot token in the config file.", new RuntimeException("Bot token not found in config file."));
+            BlockBridgeDiscordUtils.getLogger().error("Bot token not found in config file. Please enter your bot token in the config file.", new RuntimeException("Bot token not found in config file."));
 
         }
     }
@@ -68,7 +68,7 @@ public class BlockBridgeDiscord {
         try {
             File config = new File("bot.json");
             if (!config.exists()) if (config.createNewFile()) {
-                Utils.getLogger().log("Config file generated.");
+                BlockBridgeDiscordUtils.getLogger().log("Config file generated.");
             }
             BufferedReader reader = new BufferedReader(new FileReader("bot.json"));
 
@@ -80,7 +80,7 @@ public class BlockBridgeDiscord {
 
 
         } catch (IOException ex) {
-            Utils.getLogger().error("Config File couldn't be generated or accessed. Please check console for more details.", ex);
+            BlockBridgeDiscordUtils.getLogger().error("Config File couldn't be generated or accessed. Please check console for more details.", ex);
         }
         String config = stringBuilder.toString();
         return config.isEmpty() ? new JSONObject() : new JSONObject(config);
@@ -93,7 +93,7 @@ public class BlockBridgeDiscord {
             f2.write(CONFIG.toString(2));
             f2.close();
         } catch (IOException e) {
-            Utils.getLogger().error("There was an error saving the config file.", e);
+            BlockBridgeDiscordUtils.getLogger().error("There was an error saving the config file.", e);
         }
     }
 

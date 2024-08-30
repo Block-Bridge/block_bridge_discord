@@ -2,7 +2,7 @@ package me.quickscythe.bot;
 
 import me.quickscythe.BlockBridgeDiscord;
 import me.quickscythe.bot.listeners.MessageListener;
-import me.quickscythe.utils.Utils;
+import me.quickscythe.utils.BlockBridgeDiscordUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -25,7 +25,7 @@ public class Bot {
         LOG_CHANNEL = BlockBridgeDiscord.getConfig().getLong("log_channel");
         CMD_CHANNEL = BlockBridgeDiscord.getConfig().getLong("cmd_channel");
         API = JDABuilder.createDefault(TOKEN, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS).setMemberCachePolicy(MemberCachePolicy.ALL).build();
-        Utils.init(API);
+        BlockBridgeDiscordUtils.init(API);
         API.addEventListener(new MessageListener());
     }
 

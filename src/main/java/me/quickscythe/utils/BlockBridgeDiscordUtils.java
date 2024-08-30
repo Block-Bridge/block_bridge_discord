@@ -1,19 +1,16 @@
 package me.quickscythe.utils;
 
-import me.quickscythe.BlockBridgeApi;
 import me.quickscythe.bot.BotPlugin;
 import me.quickscythe.utils.logs.BotLogger;
 import me.quickscythe.utils.runnables.Heartbeat;
-import me.quickscythe.webapp.listeners.DiscordLogListener;
 import net.dv8tion.jda.api.JDA;
 
 import java.io.*;
-import java.lang.reflect.Method;
 import java.net.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class Utils {
+public class BlockBridgeDiscordUtils {
 
     private static JDA api;
     private static BotLogger LOG;
@@ -26,7 +23,7 @@ public class Utils {
     }
 
     public static void init(JDA api) {
-        Utils.api = api;
+        BlockBridgeDiscordUtils.api = api;
 
 //        SqlUtils.createDatabase("core", new SqlDatabase(SqlUtils.SQLDriver.MYSQL, "sql.vanillaflux.com", "vanillaflux", 3306, "sys", "9gGKGqthQJ&!#DGd"));
 //        core = SqlUtils.getDatabase("core");
@@ -38,7 +35,7 @@ public class Utils {
         for(File file : plugin_folder.listFiles()){
             if(file.getName().endsWith(".jar")){
                 try {
-                    URLClassLoader classLoader = new URLClassLoader(new URL[]{file.toURI().toURL()}, Utils.class.getClassLoader());
+                    URLClassLoader classLoader = new URLClassLoader(new URL[]{file.toURI().toURL()}, BlockBridgeDiscordUtils.class.getClassLoader());
                     Properties properties = new Properties();
                     properties.load(classLoader.getResourceAsStream("plugin.properties"));
                     Class<? extends BotPlugin> loadedClass = (Class<? extends BotPlugin>) classLoader.loadClass(properties.getProperty("main"));
