@@ -1,119 +1,72 @@
 package me.quickscythe;
 
 import json2.JSONObject;
+import me.quickscythe.api.config.ConfigClass;
 import me.quickscythe.bot.Bot;
 import me.quickscythe.utils.BlockBridgeDiscordUtils;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 import java.io.*;
 
-public class BlockBridgeDiscord {
+public class BlockBridgeDiscord extends ConfigClass {
 
 
-    private static boolean DEBUG = false;
-    private static JSONObject CONFIG;
-    private static Bot BOT;
-    private static BlockBridgeApi bba;
+    private boolean DEBUG = false;
+    private Bot BOT;
+    private BlockBridgeApi bba;
+
+    public BlockBridgeDiscord() {
+        super(new BlockBridgeDiscordPlugin(), "bot");
+        checkConfigDefaults();
+        finish();
+        BOT = new Bot(this);
+        bba = new BlockBridgeApi();
+        bba.init();
+    }
 
 
     public static void main(String[] args) {
         BlockBridgeDiscordUtils._before_init();
-
-        CONFIG = loadConfig();
-        checkConfigDefaults();
-        saveConfig();
-        BOT = new Bot();
-        bba = new BlockBridgeApi();
-        bba.init();
-
+        BlockBridgeDiscordUtils.initMain(new BlockBridgeDiscord());
     }
 
-    private static void checkConfigDefaults() {
+    private void checkConfigDefaults() {
 
         setDefault("command_prefix", "!");
         setDefault("cmd_channel", 0L);
         setDefault("log_channel", 0L);
         setDefault("guild_id", 0L);
-        setDefault("logs", new JSONObject());
-        JSONObject logs = CONFIG.getJSONObject("logs");
-        setDefault("join", false, logs);
-        setDefault("leave", false, logs);
-        setDefault("status_changes", false, logs);
-        setDefault("status_changes_message", "Status: {0}", logs);
-        setDefault("chat", false, logs);
-        setDefault("join_message", "[0] has joined!", logs);
-        setDefault("leave_message", "[0] has left!", logs);
-        setDefault("chat_format", "<[0]> [1]", logs);
-        if (!CONFIG.has("bot_token")) {
+//        setDefault("logs", new JSONObject());
+//        JSONObject logs = getConfig().getData().getJSONObject("logs");
+//        setDefault("join", false, logs);
+//        setDefault("leave", false, logs);
+//        setDefault("status_changes", false, logs);
+//        setDefault("status_changes_message", "Status: {0}", logs);
+//        setDefault("chat", false, logs);
+//        setDefault("join_message", "[0] has joined!", logs);
+//        setDefault("leave_message", "[0] has left!", logs);
+//        setDefault("chat_format", "<[0]> [1]", logs);
+        if (!getConfig().getData().has("bot_token")) {
             setDefault("bot_token", 0L);
 
-            saveConfig();
+            finish();
             BlockBridgeDiscordUtils.getLogger().error("Bot token not found in config file. Please enter your bot token in the config file.", new RuntimeException("Bot token not found in config file."));
 
         }
     }
 
-    private static void setDefault(String key, Object value) {
-        setDefault(key, value, CONFIG);
-    }
-
-    private static void setDefault(String key, Object value, JSONObject config) {
-        if(!config.has(key))
-            config.put(key, value);
-    }
-
-    private static JSONObject loadConfig() {
-        StringBuilder stringBuilder = new StringBuilder();
-        try {
-            File config = new File("bot.json");
-            if (!config.exists()) if (config.createNewFile()) {
-                BlockBridgeDiscordUtils.getLogger().log("Config file generated.");
-            }
-            BufferedReader reader = new BufferedReader(new FileReader("bot.json"));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
-            }
-            reader.close();
-
-
-        } catch (IOException ex) {
-            BlockBridgeDiscordUtils.getLogger().error("Config File couldn't be generated or accessed. Please check console for more details.", ex);
-        }
-        String config = stringBuilder.toString();
-        return config.isEmpty() ? new JSONObject() : new JSONObject(config);
-    }
-
-
-    public static void saveConfig() {
-        try {
-            FileWriter f2 = new FileWriter("bot.json", false);
-            f2.write(CONFIG.toString(2));
-            f2.close();
-        } catch (IOException e) {
-            BlockBridgeDiscordUtils.getLogger().error("There was an error saving the config file.", e);
-        }
-    }
-
-    public static boolean isDebug() {
+    public boolean isDebug() {
         return DEBUG;
     }
 
-    public static Bot getBot() {
+    public Bot getBot() {
         return BOT;
     }
 
-//    public static WebApp getWebApp() {
-//        return WEB_APP;
-//    }
 
-    public static JSONObject getConfig() {
-        return CONFIG;
-    }
-
-
-
-    public static BlockBridgeApi getApi() {
+    public BlockBridgeApi getApi() {
         return bba;
     }
+
+
 }

@@ -17,16 +17,18 @@ public class Bot {
     public final long GUILD_ID;
     public final long LOG_CHANNEL;
     public final long CMD_CHANNEL;
+    private final BlockBridgeDiscord main;
     
 
-    public Bot(){
-        TOKEN = BlockBridgeDiscord.getConfig().getString("bot_token");
-        GUILD_ID = BlockBridgeDiscord.getConfig().getLong("guild_id");
-        LOG_CHANNEL = BlockBridgeDiscord.getConfig().getLong("log_channel");
-        CMD_CHANNEL = BlockBridgeDiscord.getConfig().getLong("cmd_channel");
+    public Bot(BlockBridgeDiscord main) {
+        this.main = main;
+        TOKEN = main.getConfig().getData().getString("bot_token");
+        GUILD_ID = main.getConfig().getData().getLong("guild_id");
+        LOG_CHANNEL = main.getConfig().getData().getLong("log_channel");
+        CMD_CHANNEL = main.getConfig().getData().getLong("cmd_channel");
         API = JDABuilder.createDefault(TOKEN, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS).setMemberCachePolicy(MemberCachePolicy.ALL).build();
-        BlockBridgeDiscordUtils.init(API);
-        API.addEventListener(new MessageListener());
+        BlockBridgeDiscordUtils.initBot(API);
+        API.addEventListener(new MessageListener(main));
     }
 
     public JDA getApi() {
@@ -50,6 +52,6 @@ public class Bot {
 
 
     public String CMD_PREFIX() {
-        return BlockBridgeDiscord.getConfig().getString("command_prefix");
+        return main.getConfig().getData().getString("command_prefix");
     }
 }

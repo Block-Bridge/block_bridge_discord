@@ -1,6 +1,7 @@
 package me.quickscythe.utils;
 
-import me.quickscythe.bot.BotPlugin;
+import me.quickscythe.BlockBridgeDiscord;
+import me.quickscythe.api.BotPlugin;
 import me.quickscythe.utils.logs.BotLogger;
 import me.quickscythe.utils.runnables.Heartbeat;
 import net.dv8tion.jda.api.JDA;
@@ -14,21 +15,18 @@ public class BlockBridgeDiscordUtils {
 
     private static JDA api;
     private static BotLogger LOG;
-
+    private static BlockBridgeDiscord main;
     private static List<BotPlugin> PLUGINS = new ArrayList<>();
 
 
     public static void _before_init() {
-        LOG = new BotLogger("FluxApi");
+        LOG = new BotLogger("BlockBridge");
     }
 
-    public static void init(JDA api) {
-        BlockBridgeDiscordUtils.api = api;
-
-//        SqlUtils.createDatabase("core", new SqlDatabase(SqlUtils.SQLDriver.MYSQL, "sql.vanillaflux.com", "vanillaflux", 3306, "sys", "9gGKGqthQJ&!#DGd"));
-//        core = SqlUtils.getDatabase("core");
+    public static void initMain(BlockBridgeDiscord main) {
+        BlockBridgeDiscordUtils.main = main;
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new Heartbeat(), convertTime(10, TimeUnit.SECONDS), convertTime(10, TimeUnit.SECONDS));
+        timer.scheduleAtFixedRate(new Heartbeat(main), convertTime(10, TimeUnit.SECONDS), convertTime(10, TimeUnit.SECONDS));
 
         File plugin_folder = new File("plugins");
         if(!plugin_folder.exists()) plugin_folder.mkdir();
@@ -50,6 +48,18 @@ public class BlockBridgeDiscordUtils {
                 }
             }
         }
+    }
+
+    public static BlockBridgeDiscord getMain() {
+        return main;
+    }
+
+    public static void initBot(JDA api) {
+        BlockBridgeDiscordUtils.api = api;
+
+//        SqlUtils.createDatabase("core", new SqlDatabase(SqlUtils.SQLDriver.MYSQL, "sql.vanillaflux.com", "vanillaflux", 3306, "sys", "9gGKGqthQJ&!#DGd"));
+//        core = SqlUtils.getDatabase("core");
+
 
 
 

@@ -1,6 +1,7 @@
 package me.quickscythe.utils.logs;
 
 import me.quickscythe.BlockBridgeDiscord;
+import me.quickscythe.utils.BlockBridgeDiscordUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,7 @@ public class BotLogger {
         try {
             message = format(message, args);
             getLog().info(message);
-            BlockBridgeDiscord.getBot().getLogsChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Color.GREEN).setTitle("INFO").setDescription(message).build()).queue();
+            BlockBridgeDiscordUtils.getMain().getBot().getLogsChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Color.GREEN).setTitle("INFO").setDescription(message).build()).queue();
         } catch (Exception ex) {
             queue.put(new Date().getTime(), new QueuedLog(LogLevel.INFO, message));
         }
@@ -38,7 +39,7 @@ public class BotLogger {
         try {
             message = format(message, args);
             getLog().warn(message);
-            BlockBridgeDiscord.getBot().getLogsChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Color.ORANGE).setTitle("WARN").setDescription(message).build()).queue();
+            BlockBridgeDiscordUtils.getMain().getBot().getLogsChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Color.ORANGE).setTitle("WARN").setDescription(message).build()).queue();
         } catch (Exception ex) {
             queue.put(new Date().getTime(), new QueuedLog(LogLevel.WARN, message));
         }
@@ -48,7 +49,7 @@ public class BotLogger {
         try {
             message = message.isEmpty() ? (e == null ? "Check the console" : e.getMessage()) : message;
             getLog().error(message);
-            BlockBridgeDiscord.getBot().getLogsChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Color.RED).setTitle("ERROR").setDescription(message).build()).queue();
+            BlockBridgeDiscordUtils.getMain().getBot().getLogsChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Color.RED).setTitle("ERROR").setDescription(message).build()).queue();
             if(e!=null)for (StackTraceElement el : e.getStackTrace())
                 getLog().error(el.toString());
         } catch (Exception ex) {

@@ -9,11 +9,13 @@ import java.util.concurrent.TimeUnit;
 
 public class Heartbeat extends TimerTask {
 
-    private static long config_check = 0L;
-    private static long token_check = 0L;
+    private long config_check = 0L;
+    private long token_check = 0L;
+    private final BlockBridgeDiscord plugin;
 
 
-    public Heartbeat() {
+    public Heartbeat(BlockBridgeDiscord plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -24,9 +26,10 @@ public class Heartbeat extends TimerTask {
 
         if (now - config_check >= BlockBridgeDiscordUtils.convertTime(5, TimeUnit.MINUTES)) {
             config_check = now;
-            BlockBridgeDiscord.saveConfig();
+
+            plugin.finish();
             BlockBridgeDiscordUtils.getLogger().log("Checking for expired tokens...");
-            BlockBridgeDiscord.getApi().getWebApp().runTokenCheck();
+            plugin.getApi().getWebApp().runTokenCheck();
         }
 
     }
