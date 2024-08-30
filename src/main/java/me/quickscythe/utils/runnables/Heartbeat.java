@@ -1,6 +1,6 @@
 package me.quickscythe.utils.runnables;
 
-import me.quickscythe.Main;
+import me.quickscythe.BlockBridgeDiscord;
 import me.quickscythe.utils.Utils;
 
 import java.util.Date;
@@ -24,12 +24,10 @@ public class Heartbeat extends TimerTask {
 
         if (now - config_check >= Utils.convertTime(5, TimeUnit.MINUTES)) {
             config_check = now;
-            Main.saveConfig();
+            BlockBridgeDiscord.saveConfig();
+            Utils.getLogger().log("Checking for expired tokens...");
+            BlockBridgeDiscord.getApi().getWebApp().runTokenCheck();
         }
-        if (now - token_check >= Utils.convertTime(Main.TOKEN_VALID_TIME(), TimeUnit.HOURS)) {
-            token_check = now;
-            Utils.getLogger().log("Checking for expired tokens...", false);
-            Main.getWebApp().runTokenCheck();
-        }
+
     }
 }

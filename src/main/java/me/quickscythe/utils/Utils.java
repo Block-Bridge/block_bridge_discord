@@ -1,22 +1,15 @@
 package me.quickscythe.utils;
 
+import me.quickscythe.BlockBridgeApi;
+import me.quickscythe.bot.BotPlugin;
 import me.quickscythe.utils.logs.BotLogger;
 import me.quickscythe.utils.runnables.Heartbeat;
-import me.quickscythe.webapp.api.Api;
-import me.quickscythe.webapp.api.FluxApi;
+import me.quickscythe.webapp.listeners.DiscordLogListener;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.lang.reflect.Method;
+import java.net.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +17,8 @@ public class Utils {
 
     private static JDA api;
     private static BotLogger LOG;
-    private static Api fluxApi;
+
+    private static List<BotPlugin> PLUGINS = new ArrayList<>();
 
 
     public static void _before_init() {
@@ -39,8 +33,31 @@ public class Utils {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new Heartbeat(), convertTime(10, TimeUnit.SECONDS), convertTime(10, TimeUnit.SECONDS));
 
+        File plugin_folder = new File("plugins");
+        if(!plugin_folder.exists()) plugin_folder.mkdir();
+        for(File file : plugin_folder.listFiles()){
+            if(file.getName().endsWith(".jar")){
+                try {
+                    URLClassLoader classLoader = new URLClassLoader(new URL[]{file.toURI().toURL()}, Utils.class.getClassLoader());
+                    Properties properties = new Properties();
+                    properties.load(classLoader.getResourceAsStream("plugin.properties"));
+                    Class<? extends BotPlugin> loadedClass = (Class<? extends BotPlugin>) classLoader.loadClass(properties.getProperty("main"));
+                    BotPlugin instance = loadedClass.getDeclaredConstructor().newInstance();
+                    Method method = loadedClass.getMethod("enable");
+                    method.invoke(instance);
+                    PLUGINS.add(instance);
+                    classLoader.close();
+                } catch (Exception e) {
+                    getLogger().error("There was an error loading a plugin (" + file.getName() + ").", e);
+                }
+            }
+        }
+
+
+
 //        timer.schedule(new DailyCheck(timer), convertTime(10, TimeUnit.SECONDS));
     }
+    
 
     public static String getContext(URL url) {
         //TODO better logging
@@ -75,7 +92,7 @@ public class Utils {
     public static void update() {
         try {
             saveStream(downloadFile("https://ci.vanillaflux.com/view/FluxVerse/job/biflux_bot/lastSuccessfulBuild/artifact/build/libs/fluxbot-1.0-all.jar", "admin", "&aaXffYj4#Pq@T3Q"), new FileOutputStream("fluxbot-1.0-all.jar"));
-            getLogger().log("Update complete.", true);
+            getLogger().log("Update complete.");
             System.exit(1);
         } catch (Exception ex) {
             getLogger().error("There was an error updating the bot.", ex);

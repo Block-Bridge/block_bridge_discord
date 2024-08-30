@@ -11,6 +11,10 @@ version = project.bot_version
 
 repositories {
     mavenCentral()
+
+    maven {
+        url = uri("https://repo.vanillaflux.com/repository/blockbridge/")
+    }
 }
 
 dependencies {
@@ -21,6 +25,7 @@ dependencies {
     implementation("net.dv8tion:JDA:$jda_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("com.sparkjava:spark-core:$spark_version")
+    implementation "me.quickscythe:block_bridge_api:${block_bridge_api_version}"
 }
 
 test {

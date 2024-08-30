@@ -1,20 +1,14 @@
 package me.quickscythe.bot;
 
-import me.quickscythe.Main;
+import me.quickscythe.BlockBridgeDiscord;
 import me.quickscythe.bot.listeners.MessageListener;
 import me.quickscythe.utils.Utils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Date;
 
 public class Bot {
 
@@ -26,10 +20,10 @@ public class Bot {
     
 
     public Bot(){
-        TOKEN = Main.getConfig().getString("bot_token");
-        GUILD_ID = Main.getConfig().getLong("guild_id");
-        LOG_CHANNEL = Main.getConfig().getLong("log_channel");
-        CMD_CHANNEL = Main.getConfig().getLong("cmd_channel");
+        TOKEN = BlockBridgeDiscord.getConfig().getString("bot_token");
+        GUILD_ID = BlockBridgeDiscord.getConfig().getLong("guild_id");
+        LOG_CHANNEL = BlockBridgeDiscord.getConfig().getLong("log_channel");
+        CMD_CHANNEL = BlockBridgeDiscord.getConfig().getLong("cmd_channel");
         API = JDABuilder.createDefault(TOKEN, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS).setMemberCachePolicy(MemberCachePolicy.ALL).build();
         Utils.init(API);
         API.addEventListener(new MessageListener());
@@ -56,6 +50,6 @@ public class Bot {
 
 
     public String CMD_PREFIX() {
-        return Main.getConfig().getString("command_prefix");
+        return BlockBridgeDiscord.getConfig().getString("command_prefix");
     }
 }

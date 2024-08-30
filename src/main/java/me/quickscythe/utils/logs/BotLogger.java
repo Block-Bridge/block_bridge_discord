@@ -1,6 +1,6 @@
 package me.quickscythe.utils.logs;
 
-import me.quickscythe.Main;
+import me.quickscythe.BlockBridgeDiscord;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,74 +22,66 @@ public class BotLogger {
         return LOG;
     }
 
-    public void log(String message) {
-        log(message, false);
-    }
+    public void log(String message, String... args) {
 
-    public void log(String message, boolean logToDiscord) {
         try {
+            message = format(message, args);
             getLog().info(message);
-            if (logToDiscord)
-                Main.getBot().getLogsChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Color.GREEN).setTitle("INFO").setDescription(message).build()).queue();
+            BlockBridgeDiscord.getBot().getLogsChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Color.GREEN).setTitle("INFO").setDescription(message).build()).queue();
         } catch (Exception ex) {
-            queue.put(new Date().getTime(), new QueuedLog(LogLevel.INFO, message, logToDiscord));
+            queue.put(new Date().getTime(), new QueuedLog(LogLevel.INFO, message));
         }
     }
 
-    public void warn(String message) {
-        warn(message, false);
-    }
 
-    public void warn(String message, boolean logToDiscord) {
+    public void warn(String message, String... args) {
         try {
+            message = format(message, args);
             getLog().warn(message);
-            if (logToDiscord)
-                Main.getBot().getLogsChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Color.ORANGE).setTitle("WARN").setDescription(message).build()).queue();
+            BlockBridgeDiscord.getBot().getLogsChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Color.ORANGE).setTitle("WARN").setDescription(message).build()).queue();
         } catch (Exception ex) {
-            queue.put(new Date().getTime(), new QueuedLog(LogLevel.WARN, message, logToDiscord));
+            queue.put(new Date().getTime(), new QueuedLog(LogLevel.WARN, message));
         }
     }
 
-    public void error(String message) {
-        error(message, "");
-    }
-
-    public void error(String message, String logToDiscord) {
+    public void error(String message, Exception e) {
         try {
+            message = message.isEmpty() ? (e == null ? "Check the console" : e.getMessage()) : message;
             getLog().error(message);
-            if (!logToDiscord.isEmpty() && !message.isEmpty())
-                Main.getBot().getLogsChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Color.RED).setTitle("ERROR").setDescription(logToDiscord.equals("=") ? message : logToDiscord).build()).queue();
+            BlockBridgeDiscord.getBot().getLogsChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Color.RED).setTitle("ERROR").setDescription(message).build()).queue();
+            if(e!=null)for (StackTraceElement el : e.getStackTrace())
+                getLog().error(el.toString());
         } catch (Exception ex) {
-            queue.put(new Date().getTime(), new QueuedLog(LogLevel.ERROR, message, !logToDiscord.isEmpty()));
+            queue.put(new Date().getTime(), new QueuedLog(LogLevel.ERROR, message));
         }
     }
 
-    public void error(String message, Exception ex) {
-        error(message.isEmpty() ? ex.getMessage() : message, "=");
-        for (StackTraceElement el : ex.getStackTrace())
-            error(el.toString());
-//        Utils.getLogsChannel().sendMessageEmbeds(new EmbedBuilder().setColor(Color.RED).setTitle("ERROR").setDescription(message).build()).queue();
-    }
 
     public void attemptQueue() {
         if (!queue.isEmpty()) {
-            log("Attempting to dump queued logs", true);
+            log("Attempting to dump queued logs");
             for (Map.Entry<Long, QueuedLog> entry : queue.entrySet()) {
                 long time = entry.getKey();
                 String message = entry.getValue().message;
-                boolean logToDiscord = entry.getValue().logToDiscord;
                 LogLevel level = entry.getValue().level;
 
                 message = "[QUEUED] " + message;
 
                 switch (level) {
-                    case INFO -> log(message, logToDiscord);
-                    case WARN -> warn(message, logToDiscord);
-                    case ERROR -> error(message, logToDiscord ? "=" : "");
+                    case INFO -> log(message);
+                    case WARN -> warn(message);
+                    case ERROR -> error(message, null);
                 }
             }
             queue.clear();
         }
+    }
+
+    public String format(String message, String... args) {
+        for (int i = 0; i != args.length; i++) {
+            message = message.replaceAll("\\[" + i + "]", args[i]);
+        }
+        return message;
     }
 
     private enum LogLevel {
@@ -99,12 +91,10 @@ public class BotLogger {
     private class QueuedLog {
         String message;
         LogLevel level;
-        boolean logToDiscord;
 
-        private QueuedLog(LogLevel level, String message, boolean logToDiscord) {
+        private QueuedLog(LogLevel level, String message) {
             this.level = level;
             this.message = message;
-            this.logToDiscord = logToDiscord;
         }
 
     }
