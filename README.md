@@ -12,9 +12,13 @@ In order to run the bot you will need the following:
 2) Either a Pterodactyl/Multicraft Panel or a VPS/Dedicated Server
 
 ## Installation ##
-There are two ways to install the bot, either by using a pre-built panel (like Pterodactyl or Multicraft) or by using a VPS/Dedicated Server.
+There are two ways to install the bot, either by using a pre-built panel
+(like Pterodactyl or Multicraft) or by using a VPS/Dedicated Server.
 ### Pterodactyl/MultiCraft Panel ###
-For this installation method you will need some technical knowledge and access to the server's file system. I will not be going over specifics for each panel, however you can join the Discord for help on specific panel installations.
+For this installation method you will need some technical knowledge
+and access to the server's file system. I will not be going over
+specifics for each panel, however you can join the Discord for 
+help on specific panel installations.
 #### Download the latest release from the [Releases](https://ci.vanillaflux.com)
 Download the latest stable release from the releases page.
 
@@ -22,28 +26,31 @@ Download the latest stable release from the releases page.
 If you're having issues on this step join the [Discord]() for help
 
 #### Upload the bot jar file to the root of your server
-Once you have the jar file uploaded, to the root of the server, verify that your server jar file is set to the bot jar file.
+Once you have the jar file uploaded, to the root of the server, verify
+that your server jar file is set to the bot jar file.
 
 #### Start the server
-On first launch you should generate a bunch of errors, this is normal. The bot will generate a config file and then stop.
+On first launch you should generate a bunch of errors,
+this is normal. The bot will generate a config file and then stop.
 
-#### Editing the config file
-The config file will be located in the root of your server, and will be named `config.json`. These are the values we need to change before launching again:
+#### Editing the config files
+A couple folders should generate in the root of your server, however
+we are only interested in the `BlockBridgeDiscord` folder, and
+the `bot.json` file. These are the values we need to change before
+launching again:
    ```json
    {
     "cmd_channel": 0,
-    "log_channel": 0,
     "guild_id": 0,
-    "bot_token": 0,
-    "web_port": 8585
-   }
+    "bot_token": "<bot-token>",
+    "log_channel": 0
+}
    ```
 You can learn how to get channel/guild ids [here](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-) (Server ID is the same as Guild ID)
 * `cmd_channel`: The channel id that the bot will listen for commands in.
 * `log_channel`: The channel id that the bot will log messages to. (commands are accepted here as well for debugging purposes)
 * `guild_id`: The id of the guild that the bot will be running in.
 * `bot_token`: The token of the bot that you created.
-* `web_port`: The port that the bot will listen for web requests on. This is optional to change, however if you are already running a service on port 8585 you will need to change it.
 
 ([Click here to learn more about the config file](#configuration-)).
 #### Launch the server again
@@ -127,27 +134,28 @@ Download the latest stable release from the releases page.
     ```bash
     ./start.sh
     ```
-2) The bot should start and generate a config file. Once the bot has generated the config file, stop the bot by pressing `CTRL + C`
+2) A couple folders should generate in the root of your server, however
+   we are only interested in the `BlockBridgeDiscord` folder, and
+   the `bot.json` file. Once the bot has generated the config file,
+   stop the bot by pressing `CTRL + C`
 3) Edit the config file ([More info here](#configuration-)).
     ```bash
-    nano config.json
+    nano BlockBridgeDiscord/bot.json
     ```
    These are the values we need to change before launching again:
    ```json
    {
     "cmd_channel": 0,
-    "log_channel": 0,
     "guild_id": 0,
-    "bot_token": 0,
-    "web_port": 8585
+    "bot_token": "<bot-token>",
+    "log_channel": 0
    }
    ```
-   You can learn how to get channel/guild ids [here](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-) (Server ID is the same as Guild ID)
-   * `cmd_channel`: The channel id that the bot will listen for commands in.
-   * `log_channel`: The channel id that the bot will log messages to. (commands are accepted here as well for debugging purposes)
-   * `guild_id`: The id of the guild that the bot will be running in.
-   * `bot_token`: The token of the bot that you created.
-   * `web_port`: The port that the bot will listen for web requests on. This is optional to change, however if you are already running a service on port 8585 you will need to change it.
+You can learn how to get channel/guild ids [here](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-) (Server ID is the same as Guild ID)
+* `cmd_channel`: The channel id that the bot will listen for commands in.
+* `log_channel`: The channel id that the bot will log messages to. (commands are accepted here as well for debugging purposes)
+* `guild_id`: The id of the guild that the bot will be running in.
+* `bot_token`: The token of the bot that you created.
 4) Start the bot again
     ```bash
     ./start.sh
@@ -208,28 +216,38 @@ Download the latest stable release from the releases page.
 9) The bot should now be running as a service. If you have any issues, join the [Discord]() for help.
 
 ## Configuration ##
-Your default configuration file will look like this:
+There are 2 default configuration files. `BlockBridgeDiscord/bot.json` 
+and `BlockBridgeCore/webapp.json`. The `bot.json` file is the main
+configuration file for the bot, and the `webapp.json` file is the main
+configuration file for the web app. Below is an example of
+the `bot.json` file:
 ```json
 {
-   "allow": [],
    "cmd_channel": 0,
-   "log_channel": 0,
-   "web_port": 8585,
    "command_prefix": "!",
-   "token_valid_time": 24,
    "guild_id": 0,
-   "bot_token": 0,
-   "api_entry_point": "/api",
-   "app_entry_point": "/app"
-   
+   "bot_token": "<bot-token>",
+   "log_channel": 0
 }
 ```
-* `allow`: An array of user ids that are allowed to use the bot. This will be generated with the `allow` bot command.
 * `cmd_channel`: The channel id that the bot will listen for commands in.
 * `log_channel`: The channel id that the bot will log messages to. (commands are accepted here as well for debugging purposes)
-* `web_port`: The port that the bot will listen for web requests on.
 * `command_prefix`: The prefix that the bot will listen for commands with.
-* `token_valid_time`: The time in hours that a token is valid before expiring.
 * `guild_id`: The id of the guild that the bot will be running in.
 * `bot_token`: The token of the bot that you created.
-* `api_entry_point` & `app_entry_point`: The entry points for the api and app sections of the BlockBridge Discord bot. You can edit these as necessary, however remember they need to be mirrored in the mod's config.
+
+Here is an example of the default `webapp.json` file, however you shouldn't need to edit this:
+```json
+{
+  "allow": [],
+  "web_port": 8585,
+  "token_valid_time": 24,
+  "api_entry_point": "/api",
+  "app_entry_point": "/app"
+}
+```
+* `allow`: A list of IP addresses that are allowed to access the web app.
+* `web_port`: The port that the web app will run on.
+* `token_valid_time`: The time in hours that a token will be valid for.
+* `api_entry_point`: The entry point for the API.
+* `app_entry_point`: The entry point for the web app.

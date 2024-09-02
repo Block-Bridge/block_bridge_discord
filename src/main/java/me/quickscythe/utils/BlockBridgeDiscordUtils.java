@@ -1,7 +1,7 @@
 package me.quickscythe.utils;
 
 import me.quickscythe.BlockBridgeDiscord;
-import me.quickscythe.api.BotPlugin;
+import me.quickscythe.bot.plugins.PluginLoader;
 import me.quickscythe.utils.logs.BotLogger;
 import me.quickscythe.utils.runnables.Heartbeat;
 import net.dv8tion.jda.api.JDA;
@@ -16,8 +16,16 @@ public class BlockBridgeDiscordUtils {
     private static JDA api;
     private static BotLogger LOG;
     private static BlockBridgeDiscord main;
-    private static List<BotPlugin> PLUGINS = new ArrayList<>();
+    private static PluginLoader pluginLoader;
 
+
+    public static void initPluginLoader(){
+        pluginLoader = new PluginLoader();
+    }
+
+    public static PluginLoader getPluginLoader(){
+        return pluginLoader;
+    }
 
     public static void _before_init() {
         LOG = new BotLogger("BlockBridge");
@@ -28,26 +36,7 @@ public class BlockBridgeDiscordUtils {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new Heartbeat(main), convertTime(10, TimeUnit.SECONDS), convertTime(10, TimeUnit.SECONDS));
 
-        File plugin_folder = new File("plugins");
-        if(!plugin_folder.exists()) plugin_folder.mkdir();
-        for(File file : plugin_folder.listFiles()){
-            if(file.getName().endsWith(".jar")){
-                try {
-                    URLClassLoader classLoader = new URLClassLoader(new URL[]{file.toURI().toURL()}, BlockBridgeDiscordUtils.class.getClassLoader());
-                    Properties properties = new Properties();
-                    properties.load(classLoader.getResourceAsStream("plugin.properties"));
-                    Class<? extends BotPlugin> loadedClass = (Class<? extends BotPlugin>) classLoader.loadClass(properties.getProperty("main"));
-                    BotPlugin instance = loadedClass.getDeclaredConstructor().newInstance();
-                    instance.setName(properties.getProperty("name"));
-                    instance.enable();
-                    PLUGINS.add(instance);
-                    getLogger().log("Loaded plugin " + instance.getName());
-                    classLoader.close();
-                } catch (Exception e) {
-                    getLogger().error("There was an error loading a plugin (" + file.getName() + ").", e);
-                }
-            }
-        }
+
     }
 
     public static BlockBridgeDiscord getMain() {

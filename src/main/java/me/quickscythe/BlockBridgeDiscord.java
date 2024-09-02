@@ -1,12 +1,8 @@
 package me.quickscythe;
 
-import json2.JSONObject;
 import me.quickscythe.api.config.ConfigClass;
 import me.quickscythe.bot.Bot;
 import me.quickscythe.utils.BlockBridgeDiscordUtils;
-import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
-
-import java.io.*;
 
 public class BlockBridgeDiscord extends ConfigClass {
 
@@ -21,13 +17,14 @@ public class BlockBridgeDiscord extends ConfigClass {
         finish();
         BOT = new Bot(this);
         bba = new BlockBridgeApi();
-        bba.init();
+        bba.init(true);
     }
 
 
     public static void main(String[] args) {
         BlockBridgeDiscordUtils._before_init();
         BlockBridgeDiscordUtils.initMain(new BlockBridgeDiscord());
+        BlockBridgeDiscordUtils.initPluginLoader();
     }
 
     private void checkConfigDefaults() {
