@@ -47,7 +47,7 @@ public class MessageListener extends ListenerAdapter {
         }
         if (cmd.equals(main.getBot().CMD_PREFIX() + "test")) {
 //            SqlUtils.getDatabase("core").update("INSERT INTO servers (name, ip) VALUES ('test', 'test')");
-            BlockBridgeDiscordUtils.getMain().getApi().postData("send_message", new JSONObject().put("message", "test").put("action","send_message").put("to","discord"));
+            BlockBridgeDiscordUtils.getMain().getApi().postData("send_message", new JSONObject().put("message", "test").put("action","send_message").put("to","minecraft"));
 
         }
         if (cmd.equals(main.getBot().CMD_PREFIX() + "servers")) {
