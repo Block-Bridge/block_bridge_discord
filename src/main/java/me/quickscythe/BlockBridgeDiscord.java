@@ -1,5 +1,6 @@
 package me.quickscythe;
 
+import me.quickscythe.api.BotPlugin;
 import me.quickscythe.api.config.ConfigClass;
 import me.quickscythe.bot.Bot;
 import me.quickscythe.utils.BlockBridgeDiscordUtils;
@@ -15,6 +16,7 @@ public class BlockBridgeDiscord extends ConfigClass {
         super(new BlockBridgeDiscordPlugin(), "bot");
         checkConfigDefaults();
         finish();
+
         BOT = new Bot(this);
         bba = new BlockBridgeApi();
         bba.init(true);
@@ -25,6 +27,9 @@ public class BlockBridgeDiscord extends ConfigClass {
         BlockBridgeDiscordUtils._before_init();
         BlockBridgeDiscordUtils.initMain(new BlockBridgeDiscord());
         BlockBridgeDiscordUtils.initPluginLoader();
+        BotPlugin plugin = BlockBridgeDiscordUtils.getMain().getConfig().getPlugin();
+        BlockBridgeDiscordUtils.getPluginLoader().registerPlugin(plugin);
+        BlockBridgeDiscordUtils.getPluginLoader().enablePlugin(plugin);
     }
 
     private void checkConfigDefaults() {

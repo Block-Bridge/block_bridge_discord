@@ -1,5 +1,6 @@
 package me.quickscythe.bot.listeners;
 
+import json2.JSONObject;
 import me.quickscythe.BlockBridgeDiscord;
 import me.quickscythe.api.BotPlugin;
 import me.quickscythe.sql.SqlUtils;
@@ -45,7 +46,8 @@ public class MessageListener extends ListenerAdapter {
 //            SqlUtils.getDatabase("core").update("CREATE TABLE IF NOT EXISTS servers (name TEXT, ip TEXT, port INTEGER, motd TEXT, onlinePlayers INTEGER, maxPlayers INTEGER)");
         }
         if (cmd.equals(main.getBot().CMD_PREFIX() + "test")) {
-            SqlUtils.getDatabase("core").update("INSERT INTO servers (name, ip) VALUES ('test', 'test')");
+//            SqlUtils.getDatabase("core").update("INSERT INTO servers (name, ip) VALUES ('test', 'test')");
+            BlockBridgeDiscordUtils.getMain().getApi().postData("send_message", new JSONObject().put("message", "test").put("action","send_message").put("to","discord"));
 
         }
         if (cmd.equals(main.getBot().CMD_PREFIX() + "servers")) {
