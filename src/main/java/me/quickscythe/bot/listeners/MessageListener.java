@@ -1,16 +1,15 @@
 package me.quickscythe.bot.listeners;
 
+import json2.JSONObject;
 import me.quickscythe.BlockBridgeDiscord;
 import me.quickscythe.api.BotPlugin;
-import me.quickscythe.sql.SqlUtils;
+import me.quickscythe.api.object.Player;
+import me.quickscythe.storage.Storage;
+import me.quickscythe.storage.StorageManager;
 import me.quickscythe.utils.BlockBridgeDiscordUtils;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.Objects;
 
 
@@ -39,48 +38,32 @@ public class MessageListener extends ListenerAdapter {
 
         }
         if (cmd.equals(main.getBot().CMD_PREFIX() + "reset")) {
-            SqlUtils.getDatabase("core").update("DELETE FROM servers WHERE 1");
-//            SqlUtils.getDatabase("core").update("DROP TABLE servers");
-//            SqlUtils.getDatabase("core").update("CREATE TABLE IF NOT EXISTS players (uuid TEXT, username TEXT, ip TEXT, time INTEGER)");
-//            SqlUtils.getDatabase("core").update("CREATE TABLE IF NOT EXISTS servers (name TEXT, ip TEXT, port INTEGER, motd TEXT, onlinePlayers INTEGER, maxPlayers INTEGER)");
+            StorageManager.getStorage().set("players", new JSONObject());
+            StorageManager.getStorage().set("servers", new JSONObject());
         }
         if (cmd.equals(main.getBot().CMD_PREFIX() + "test")) {
-            SqlUtils.getDatabase("core").update("INSERT INTO servers (name, ip) VALUES ('test', 'test')");
 
         }
         if (cmd.equals(main.getBot().CMD_PREFIX() + "servers")) {
-            ResultSet rs = SqlUtils.getDatabase("core").query("SELECT * FROM servers");
-
-            try {
-                while (rs.next())
-                    event.getChannel().sendMessage("Server: " + rs.getString("name") + " IP: " + rs.getString("ip")).queue();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            Storage storage = StorageManager.getStorage();
+            if(storage.get("servers") == null) event.getChannel().sendMessage("No servers found.").queue();
+            else {
+                for (String key : ((JSONObject) storage.get("servers")).keySet()) {
+                    JSONObject server = ((JSONObject) storage.get("servers")).getJSONObject(key);
+                    event.getChannel().sendMessage("Server: " + server.getString("name") + " IP: " + server.getString("ip")).queue();
+                }
             }
-
-
         }
 
         if (cmd.equals(main.getBot().CMD_PREFIX() + "players")) {
 
-            ResultSet rs = SqlUtils.getDatabase("core").query("SELECT * FROM players");
-
-            try {
-                while (rs.next()) {
-                    ResultSetMetaData rsmd = rs.getMetaData();
-                    int columnCount = rsmd.getColumnCount();
-                    for (int i = 1; i <= columnCount; i++) {
-                        String columnName = rsmd.getColumnName(i);
-                        String columnValue = rs.getString(i);
-                        event.getChannel().sendMessage(columnName + ": " + columnValue).queue();
-
-
-                    }
-                    event.getChannel().sendMessage("-----").queue();
-//                    event.getChannel().sendMessage("Server: " + rs.getString("name") + " IP: " + rs.getString("ip")).queue();
+            Storage storage = StorageManager.getStorage();
+            if(storage.get("players") == null) event.getChannel().sendMessage("No players found.").queue();
+            else {
+                for (String key : ((JSONObject) storage.get("players")).keySet()) {
+                    Player player = new Player(((JSONObject) storage.get("players")).getJSONObject(key));
+                    event.getChannel().sendMessage("Player: " + player.getName() + " Uid: " + player.getUid()).queue();
                 }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
             }
 
 
