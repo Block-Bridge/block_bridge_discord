@@ -1,11 +1,11 @@
 # BlockBridge Discord Bot #
 BlockBridge is a Utility/Api for connecting Minecraft with Discord Servers.
 #### Table of Contents
-* [Prerequisites](#prerequisites-)
-* [Installation](#installation-)
-   * [Pterodactyl/MultiCraft Panel](#pterodactylmulticraft-panel-)
-   * [VPS/Dedicated Server](#vpsdedicated-server-)
-* [Configuration](#configuration-)
+* [Prerequisites](#prerequisites)
+* [Installation](#installation)
+   * [Pterodactyl/MultiCraft Panel](#pterodactylmulticraft-panel)
+   * [VPS/Dedicated Server](#vpsdedicated-server)
+* [Configuration](#configuration)
 ## Prerequisites ##
 In order to run the bot you will need the following:
 1) A Discord Bot Token ([Check out how to get one here](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token))
@@ -46,13 +46,13 @@ launching again:
     "log_channel": 0
 }
    ```
-You can learn how to get channel/guild ids [here](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-) (Server ID is the same as Guild ID)
+You can learn how to get channel/guild ids [here](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID) (Server ID is the same as Guild ID)
 * `cmd_channel`: The channel id that the bot will listen for commands in.
 * `log_channel`: The channel id that the bot will log messages to. (commands are accepted here as well for debugging purposes)
 * `guild_id`: The id of the guild that the bot will be running in.
 * `bot_token`: The token of the bot that you created.
 
-([Click here to learn more about the config file](#configuration-)).
+([Click here to learn more about the config file](#configuration)).
 #### Launch the server again
 Once you have edited the config file, start the server again. The bot should now be running.
 
@@ -138,7 +138,7 @@ Download the latest stable release from the releases page.
    we are only interested in the `BlockBridgeDiscord` folder, and
    the `bot.json` file. Once the bot has generated the config file,
    stop the bot by pressing `CTRL + C`
-3) Edit the config file ([More info here](#configuration-)).
+3) Edit the config file ([More info here](#configuration)).
     ```bash
     nano BlockBridgeDiscord/bot.json
     ```
@@ -151,7 +151,7 @@ Download the latest stable release from the releases page.
     "log_channel": 0
    }
    ```
-You can learn how to get channel/guild ids [here](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-) (Server ID is the same as Guild ID)
+You can learn how to get channel/guild ids [here](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID) (Server ID is the same as Guild ID)
 * `cmd_channel`: The channel id that the bot will listen for commands in.
 * `log_channel`: The channel id that the bot will log messages to. (commands are accepted here as well for debugging purposes)
 * `guild_id`: The id of the guild that the bot will be running in.
@@ -177,7 +177,7 @@ You can learn how to get channel/guild ids [here](https://support.discord.com/hc
 3) Add the following code to the file. Replace `{path/to/bot}` with the path to the bot folder and `{user}` with the user you are currently logged in as.
     ```shell
     [Unit]
-    Description=BiFlux Discord Bot
+    Description=BlockBridge Discord Bot
     After=multi-user.target
     After=network-online.target
     Wants=network-online.target
